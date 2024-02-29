@@ -1,4 +1,6 @@
-import { QueryClient, QueryClientProvider as Provider, useQuery } from "react-query";
+import axios from "axios";
+import { QueryClient, QueryClientProvider as Provider, useQuery, useMutation } from "react-query";
+import axiosClient from "./util/axiosClient";
 
 const queryClient = new QueryClient();
 
@@ -15,20 +17,33 @@ const App = () => {
     <Provider client={queryClient}>
       <Example />
     </Provider>
+
   );
 };
 
 const Example = () => {
-  const { isLoading, error, data } = useQuery({
-    queryKey: ['repoData'],
-    queryFn: () =>
-      fetch("https://api.github.com/repos/tannerlinsley/react-query")
-      .then((res) => { console.log(res); }),
-  });
+  // const posting = async () => {
+  //   const url = "http://localhost:8080/api/kiosk/beta/parking/kiosk-list";
+  //   const payload = { data };
+  //   await axiosClient.post(url, payload)
+  //           .then(el => console.log(el.data))
+  //           .catch(err => console.log(err));
+  // };
+  
+  // const { isLoading, isSuccess, isError, error, data } = useMutation(posting);
 
-  if (isLoading) return "Loading...";
+  // console.log(`isLoading: ${isLoading}, isError: ${isError}, error: ${error}, isSuccess: ${isSuccess}`);
 
-  if (error) return "An error has occurred : " + error;
+  const { data } = useMutation(
+    (data) => axiosClient.post('/api/kiosk/beta/parking/kiosk-list', { data }),
+    {
+      // Post 요청이 성공하면 위 useQuery의 데이터를 초기화합니다.
+      // 데이터가 초기화되면 useQuery는 서버의 데이터를 다시 불러옵니다.
+      onSuccess: () => queryClient.invalidateQueries('getMenu'),
+    },
+  );
+
+  console.log(data);
 
   return (
     <div>
