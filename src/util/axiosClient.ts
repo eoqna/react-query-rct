@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosClient = axios.create({
-  baseURL: "http://localhost:8080",
+  baseURL: "http://rnd.daontec.co.kr:8080",
   timeout: 30000,
 });
 
