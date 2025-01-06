@@ -2,7 +2,7 @@ import axios from "axios";
 
 const axiosClient = axios.create({
   baseURL: "http://rnd.daontec.co.kr:8080",
-  timeout: 30000,
+  timeout: 10000,
 });
 
 export const initAxios = () => {

@@ -2,20 +2,9 @@ import { QueryClient, useMutation } from "react-query";
 import axiosClient from "../util/axiosClient";
 import { useState } from "react";
 
-interface LotProps {
-  flor_id: number;
-  flor_nm: string;
-  normal_avail_lots: number;
-  disabled_avail_lots: number;
-  women_avail_lots: number;
-  lightcar_avail_lots: number;
-  evcar_avail_lots: number;
-  vip_avail_lots: number;
-};
-
 const Example = ( props: { queryClient: QueryClient } ) => {
   const { queryClient } = props;
-  const [ kiosk, setKiosk ] = useState<LotProps[]>([]);
+  const [ kiosk, setKiosk ] = useState<ApiResponse.LotProps[]>([]);
   const posting = async () => {
     const url = "/api/kiosk/beta/parking/available-lots";
     const payload = { data };
